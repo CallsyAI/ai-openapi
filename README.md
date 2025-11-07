@@ -82,32 +82,44 @@ npm install -g @callsy/ai-openapi
 }
 ```
 
-### 2. Create Instructions
+### 2. Create Instructions File
 
-The AI prompt uses three customizable sections. Create txt files with instructions for AI:
+Create a single instruction file that guides the AI on how to analyze your codebase:
 
-- `documentation/applicationExplanation.txt` (Used to explain to AI what is the application, what is the tech stack, what is the structre of the codebase, etc.)
-```
-This is a web application with API endpoints in `app/routes/` prefixed with `api.`
-```
+**File**: `documentation/additionalInstructions.txt`
 
-- `documentation/endpointGuidance.txt` (Used to provide clear instructions how to find endpoints in your codebase, which ones to ignore, etc.)
-```
-Search for all API route files in the application.
+This file should include:
+- **Application Context**: Explain what your application does, tech stack, and codebase structure.
+- **Endpoint Location**: Clear instructions on where to find API endpoints.
+- **Constraints**: Rules the AI must follow (e.g., "never modify application code").
 
-For each API route, understand that:
-- Each file represents one or more endpoints
-- Extract HTTP methods, request/response schemas, and parameters
-```
+**Example**:
+```text
+## Application Context
 
-- `documentation/additionalConstraints.txt`: (Used to provide additional constraints i.e. "never modify application code", etc.)
-```
+This is a Node.js REST API built with Express.js.
+- API routes are in `src/routes/api/` directory.
+- Each file exports Express router with endpoints.
+- TypeScript is used for type definitions.
+
+## Finding Endpoints
+
+Search for all files in `src/routes/api/*.ts`.
+- Each file represents a route group (e.g., users.ts, auth.ts).
+- Extract HTTP methods (GET, POST, PUT, DELETE).
+- Identify request/response types from TypeScript interfaces.
+
+## Constraints
+
 ONLY READ FROM:
-- API route source files.
+- Source files in `src/routes/api/`.
+- Type definitions in `src/types/`.
 
 ONLY WRITE TO:
-- `documentation/schemas/*.json`
-- `documentation/routes/*.json`
+- `documentation/schemas/*.json`.
+- `documentation/routes/*.json`.
+
+NEVER modify application source code.
 ```
 
 ## CLI Commands
@@ -134,25 +146,64 @@ npx ai-openapi cleanup
 npx ai-openapi full
 ```
 
+### CLI Options
+
+All commands support these options:
+
+```bash
+--doc-dir <path>                      # Path to documentation folder (default: ./documentation)
+--additional-instructions <path>      # Path to instructions file (default: ./documentation/additionalInstructions.txt)
+--base-file <path>                    # Path to base OpenAPI spec (default: ./documentation/base.json)
+--anthropic-api-key <key>            # Anthropic API key (default: ANTHROPIC_API_KEY env var)
+--readme-api-key <key>               # README.com API key (default: README_API_KEY env var)
+```
+
+**Example with options**:
+```bash
+npx ai-openapi generate --doc-dir ./docs --additional-instructions ./docs/instructions.txt
+```
+
 ## Programmatic Usage
 
 ```javascript
-// Import.
-const { generate } = require('@callsy/ai-openapi')
+// Import functions
+const { generate, build, validate, deploy, cleanup, full } = require('@callsy/ai-openapi')
 
-// Run.
-await generate({docDir: './documentation'})
+// Run individual commands
+await generate({
+  docDir: './documentation',
+  additionalInstructions: './documentation/additionalInstructions.txt',
+  anthropicApiKey: 'sk-...'  // Optional, uses env var by default
+})
+
+// Or run the full workflow
+await full({
+  docDir: './documentation',
+  readmeApiKey: 'rdme_...'  // Optional, for deployment
+})
+```
+
+**TypeScript**:
+```typescript
+import { generate, build, validate, deploy, cleanup, full } from '@callsy/ai-openapi'
+
+await generate({
+  docDir: './documentation',
+  additionalInstructions: './documentation/additionalInstructions.txt'
+})
 ```
 
 ## How It Works
 
-1. **Template Processing**: Handlebars renders the AI prompt with your codebase-specific guidance.
-2. **AI Analysis**: Claude AI reads your API route files.
-3. **Schema Extraction**: Extracts types, validation logic, and response structures.
-4. **Route Mapping**: Maps routes to OpenAPI paths.
-5. **Documentation Generation**: Creates schema and route JSON files.
-6. **Validation**: Builds and validates the final OpenAPI spec.
-7. **Self-Correction**: If validation fails, AI automatically fixes issues (max 5 retries).
+1. **Instruction Loading**: Reads your custom instructions from `additionalInstructions.txt`.
+2. **Template Processing**: Handlebars renders the AI prompt with your codebase-specific guidance.
+3. **AI Analysis**: Claude AI agent analyzes your API route files following your instructions.
+4. **Schema Extraction**: Extracts types, validation logic, and response structures from code.
+5. **Route Mapping**: Maps discovered routes to OpenAPI paths with proper HTTP methods.
+6. **Documentation Generation**: Creates/updates schema and route JSON files in `documentation/`.
+7. **Building**: Merges base spec with generated schemas and routes into final `openapi.json`.
+8. **Validation**: Validates the final OpenAPI spec against OpenAPI 3.0 standards.
+9. **Self-Correction**: If validation fails, AI automatically fixes issues (max 5 retries).
 
 
 ## Cost
@@ -183,9 +234,11 @@ which claude
 The AI will automatically retry up to 5 times. Check the console output for specific errors.
 ```
 
-- Template variables not working
+- "Additional instructions file not found"
 ```text
-Ensure your template files exist and paths are correct.
+Ensure your instruction file exists at the correct path:
+- Default: ./documentation/additionalInstructions.txt.
+- Or specify custom path with --additional-instructions flag.
 ```
 
 ## License
@@ -194,8 +247,8 @@ ISC
 
 ## Contributing
 
-Issues and PRs welcome at https://github.com/CallsyAI/ai-openapi
+Issues and PRs welcome at https://github.com/CallsyAI/ai-openapi.
 
 ## Author
 
-Laimonas Sutkus - [@callsy.ai](https://callsy.ai)
+Laimonas Sutkus - [@callsy.ai](https://callsy.ai).

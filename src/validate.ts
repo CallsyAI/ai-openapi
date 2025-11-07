@@ -13,6 +13,6 @@ export default async function validate(options: CliOptions = {}) {
     const api = await SwaggerParser.validate(openapiFile)
 
     console.log(`OpenAPI specification is valid!`)
-    console.log(`API: ${api.info.title} v${api.info.version}`)
-    console.log(`Paths: ${Object.keys(api.paths || {}).length}`)
+    console.log(`API: ${api.info.title} v${api.info.version}.`)
+    console.log(`Paths: ${Object.keys(api.paths || {}).length}.`)
 }

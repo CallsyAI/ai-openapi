@@ -20,7 +20,7 @@ export default async function full(options: CliOptions = {}) {
 
     for (const step of steps) {
         console.log(`${"=".repeat(60)}`)
-        console.log(`Step: ${step.name}`)
+        console.log(`Step: ${step.name}.`)
         console.log("=".repeat(60))
 
         try {

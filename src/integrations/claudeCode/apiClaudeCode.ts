@@ -66,11 +66,11 @@ export default class ApiClaudeCode {
         }
 
         if (!resultMessage) {
-            throw new Error("Agent query completed without a result message")
+            throw new Error("Agent query completed without a result message.")
         }
 
         if (resultMessage.subtype !== "success") {
-            throw new Error(`Agent query failed: ${resultMessage.errors.join(", ")}`)
+            throw new Error(`Agent query failed: ${resultMessage.errors.join(", ")}.`)
         }
 
         return resultMessage
