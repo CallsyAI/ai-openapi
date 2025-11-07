@@ -1,0 +1,61 @@
+{
+  "name": "@callsy/ai-openapi",
+  "version": "1.0.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "description": "Use AI to automatically generate OpenAPI documentation from your code.",
+  "keywords": [
+    "ai",
+    "llm",
+    "openapi",
+    "swagger",
+    "auto",
+    "generate",
+    "documentation",
+    "remix",
+    "claude"
+  ],
+  "homepage": "https://github.com/LaimonasCallsyAi/AiOpenApi#readme",
+  "bugs": {
+    "url": "https://github.com/LaimonasCallsyAi/AiOpenApi/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LaimonasCallsyAi/AiOpenApi.git"
+  },
+  "license": "ISC",
+  "author": "Laimonas Sutkus",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "ai-openapi": "./dist/bin/cli.js"
+  },
+  "files": [
+    "dist/",
+    "prompts/",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@anthropic-ai/claude-agent-sdk": "^0.1.30",
+    "@apidevtools/swagger-parser": "^12.1.0",
+    "axios": "^1.10.0",
+    "commander": "^14.0.2",
+    "form-data": "^4.0.0",
+    "handlebars": "^4.7.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

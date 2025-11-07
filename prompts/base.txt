@@ -1,0 +1,136 @@
+# Task: Generate OpenAPI 3 Documentation
+
+You are tasked with analyzing the codebase and generating comprehensive OpenAPI documentation.
+
+## Context
+
+{{APPLICATION_EXPLANATION}}
+
+## Your Task
+
+### Step 1: Find All API Routes (endpoints)
+
+{{ENDPOINT_GUIDANCE}}
+
+### Step 2: Analyze Each Route File
+
+For each API route, carefully analyze:
+
+- **HTTP Methods**: Clearly distinguish between GET, POST, PUT, DELETE, PATCH, etc.
+- **Path Parameters**: Extract possible path parameters from the route.
+- **Request Body**: Analyze inputs to determine input structure.
+- **Response Types**: Analyze outputs to determine response structure.
+- **Status Codes**: Understand what HTTP codes given responses have.
+- **Authentication**: Understand how each endpoint is authenticated (oauth, api tokens, etc.).
+- **Error Handling**: Identify thrown errors and their types.
+
+### Step 3: Review Existing Documentation
+
+**IMPORTANT**: Documentation files may already exist from previous generation runs.
+
+Before making any changes:
+1. List all existing files in `documentation/schemas/`.
+2. List all existing files in `documentation/routes/`.
+3. Read each existing file to understand what's already documented.
+4. Compare existing documentation with current API route implementations.
+
+### Step 4: Generate or Update Documentation Files
+
+#### A. Schema Files (`documentation/schemas/`)
+
+Create or update schema files for all data structures. Group related schemas by entity.
+
+**Update Strategy**:
+- If a schema file exists: Read it first, then update only if changes are needed.
+- If a schema file is missing: Create a new file.
+- If a schema is no longer used: Delete the schema definition from the file.
+
+**File naming**: Use entity name (e.g., `user.json`, `team.json`, `error.json`)
+
+**Important**:
+- Infer types from the codebase (interfaces, type hints, static typing) and validation logic.
+- Add `"nullable": true` for optional fields.
+- Include `description` and `example` for all properties.
+- Use JSON Schema formats: `date-time`, `email`, `uri`, etc.
+- Add validation constraints: `minLength`, `maxLength`, `minimum`, `maximum`, etc. if they are present in code.
+
+#### B. Route Files (`documentation/routes/`)
+
+Create or update one file per API endpoint with 1-1 mapping to source files.
+
+**Update Strategy**:
+- If a route file exists: Read it first, then update only if changes are needed
+- If a route file is missing: Create a new file
+- If a route file exists but the API route was deleted: Delete the route file
+
+**Required Fields**:
+- `summary` - Short description.
+- `description` - Longer explanation.
+- `operationId` - Unique identifier (camelCase, e.g., `getUser`).
+- `tags` - Categorization (e.g., `["Users"]`).
+- `security` - Oauth, token, etc.
+- `responses` - Include all possible status codes.
+
+**Common Response Codes**:
+- `200` - Success (GET).
+- `201` - Created (POST).
+- `400` - Validation error / Bad request.
+- `401` - Unauthorized.
+- `404` - Not found.
+- `405` - Method not allowed.
+
+### Step 5: Validation
+
+Before writing/updating each file:
+
+1. Ensure valid JSON syntax.
+2. Verify all `$ref` references exist.
+3. Check that paths are correctly formatted.
+4. Confirm schema definitions are complete.
+5. Only write if changes are needed (don't rewrite identical content).
+
+## Important Constraints
+
+{{ADDITIONAL_CONSTRAINTS}}
+
+## Execution Instructions
+
+1. **Inventory Phase**:
+
+   - List all API routes (endpoints).
+   - List all existing schema files in `documentation/schemas/`.
+   - List all existing route files in `documentation/routes/`.
+
+2. **Analysis Phase**:
+
+   - For each API route, analyze its implementation (methods, params, types, errors).
+   - Read corresponding existing documentation files.
+   - Identify differences between code and documentation.
+
+3. **Update Phase**:
+
+   - Update/create schema files only if changes are needed.
+   - Update/create route files only if changes are needed.
+   - Delete route files for API routes that no longer exist.
+
+4. **Verification Phase**:
+
+   - Run `npx ai-openapi build` to build the final OpenAPI spec.
+   - Run `npx ai-openapi validate` to validate the generated spec.
+   - If validation fails:
+     - Read the error messages carefully.
+     - Identify which files have issues.
+     - Fix the problems in the schema/route files.
+     - Repeat this verification phase.
+   - Maximum 5 verification attempts allowed.
+   - If still failing after 5 attempts, report the errors and exit.
+
+5. **Summary Phase**:
+
+   - List all files created.
+   - List all files updated.
+   - List all files deleted.
+   - Report final validation status.
+   - Confirm all changes are complete.
+
+Begin now. Be thorough and precise. Only make changes where necessary.
