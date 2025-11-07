@@ -35,14 +35,13 @@ export default class ApiClaudeCode {
 
     for await (const message of agentQuery) {
       if (verbose) {
-        // Output text content, tool usage, and tool results for visibility
+        // Output text content, tool usage, and tool results for visibility.
         if (message.type === "assistant" && message.message.content) {
           for (const content of message.message.content) {
             if (content.type === "text") {
               console.log(content.text)
             } else if (content.type === "tool_use") {
-              console.log(`\n[Tool: ${content.name}]`)
-              console.log(`Input: ${JSON.stringify(content.input, null, 2)}`)
+              console.log(`[Tool: ${content.name}]: ${content.input}`)
             }
           }
         } else if (message.type === "tool_progress") {

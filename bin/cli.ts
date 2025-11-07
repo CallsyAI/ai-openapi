@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import {Command} from 'commander'
-import {generate, build, validate, deploy, cleanup, full} from '../index'
+import {build, cleanup, deploy, full, generate, validate} from '../index'
 import {CliOptions} from "./defaults"
 
 const program = new Command()
@@ -13,29 +13,43 @@ program
 
 addOptions(program.command('generate'))
     .description('Generate OpenAPI documentation using AI')
-    .action(async (opts: CliOptions) => await generate(opts))
+    .action(errorHandler(generate))
 
 addOptions(program.command('build'))
     .description('Build final OpenAPI spec from schemas and routes')
-    .action(async (opts: CliOptions) => await build(opts))
+    .action(errorHandler(build))
 
 addOptions(program.command('validate'))
     .description('Validate OpenAPI specification')
-    .action(async (opts: CliOptions) => await validate(opts))
+    .action(errorHandler(validate))
 
 addOptions(program.command('deploy'))
     .description('Deploy OpenAPI spec to README.com')
-    .action(async (opts: CliOptions) => await deploy(opts))
+    .action(errorHandler(deploy))
 
 addOptions(program.command('cleanup'))
     .description('Delete generated OpenAPI file')
-    .action(async (opts: CliOptions) => await cleanup(opts))
+    .action(errorHandler(cleanup))
 
 addOptions(program.command('full'))
     .description('Run complete workflow (generate -> build -> validate -> deploy -> cleanup)')
-    .action(async (opts: CliOptions) => await full(opts))
+    .action(errorHandler(full))
 
 program.parse()
+
+/**
+ * Error handling middleware for CLI commands.
+ */
+function errorHandler(fn: (opts: CliOptions) => Promise<void>) {
+    return async (opts: CliOptions) => {
+        try {
+            await fn(opts)
+        } catch (error: any) {
+            console.error(error?.message?.trim() || "No error message.")
+            process.exit(1)
+        }
+    }
+}
 
 /**
  * Adds all available options for a command for simplicity.

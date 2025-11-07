@@ -1,7 +1,7 @@
 import * as fs from "fs"
 import * as path from "path"
-import {fileURLToPath} from "url"
 import HandlebarsService from "../src/integrations/handlebars/apiHandlebars"
+import PromptFileNotFound from "../src/errors/promptFileNotFound"
 
 interface Input {
     // If you pass `file`, make sure the content is path to a file.
@@ -26,7 +26,7 @@ interface PromptProps {
  */
 export default function prompt(props: PromptProps): string {
     // 1. Read prompt.
-    const templatePath = path.join(path.dirname(fileURLToPath(import.meta.url)), "base.txt")
+    const templatePath = path.join(__dirname, "base.txt")
     const template = fs.readFileSync(templatePath, "utf-8")
 
     // 2. If it's file, verify and read. If it's text, just use it.
@@ -46,7 +46,7 @@ function resolveInput(input: Input): string {
     if (input.type === "file") {
         const filePath = path.resolve(input.content)
         if (!fs.existsSync(filePath)) {
-            throw new Error(`File not found: ${filePath}`)
+            throw new PromptFileNotFound(`File not found: ${filePath}`)
         }
         return fs.readFileSync(filePath, "utf-8")
     }

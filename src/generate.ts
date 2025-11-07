@@ -1,5 +1,3 @@
-import "dotenv/config"
-import * as path from "path"
 import ApiClaudeCode from "./integrations/claudeCode/apiClaudeCode"
 import buildPrompt from "../prompts/prompt"
 import {CliOptions, resolveDefaults} from "../bin/defaults"

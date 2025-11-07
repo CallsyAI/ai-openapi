@@ -26,7 +26,6 @@
   },
   "license": "ISC",
   "author": "Laimonas Sutkus",
-  "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
@@ -40,6 +39,7 @@
   ],
   "scripts": {
     "build": "tsc",
+    "postbuild": "chmod +x dist/bin/cli.js && cp prompts/base.txt dist/prompts/",
     "prepublishOnly": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
