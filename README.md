@@ -6,12 +6,12 @@ This package uses Claude AI (via Claude Code agent) to analyze your API routes a
 
 ## Features
 
-- ✨ **AI-Powered**: Uses Claude Code AI Agent to understand your code and generate accurate documentation
-- 📝 **Complete Workflow**: Generate, build, validate, and deploy OpenAPI specs
-- 🔄 **Self-Verifying**: AI validates its own output and retries on errors
-- 🎯 **Framework Agnostic**: Works with Remix, Express, or any framework via templates
-- 🚀 **README.com Integration**: Deploy directly to README.com documentation platform
-- 🛠️ **CLI & Programmatic**: Use as CLI tool or import into your code
+- ✨ **AI-Powered**: Uses Claude Code AI Agent to understand your code and generate accurate documentation.
+- 📝 **Complete Workflow**: Generate, build, validate, and deploy OpenAPI specs.
+- 🔄 **Self-Verifying**: AI validates its own output and retries on errors.
+- 🎯 **Framework Agnostic**: Works with any language, or any framework.
+- 🚀 **README.com Integration**: Deploy directly to README.com documentation platform.
+- 🛠️ **CLI & Programmatic**: Use as CLI tool or import into your code.
 
 ## Prerequisites
 
@@ -153,7 +153,7 @@ await generate({docDir: './documentation'})
 5. **Documentation Generation**: Creates schema and route JSON files.
 6. **Validation**: Builds and validates the final OpenAPI spec.
 7. **Self-Correction**: If validation fails, AI automatically fixes issues (max 5 retries).
-8. **Framework and Language agnostic**: You can use this tool to generate documentation for any language or any framework!
+
 
 ## Cost
 
