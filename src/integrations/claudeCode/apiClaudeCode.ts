@@ -25,7 +25,7 @@ export default class ApiClaudeCode {
     /**
      * Runs an agent as a non-interactive process.
      */
-    public async run(prompt: string, options?: { verbose?: boolean }): Promise<SDKResultMessage> {
+    public async run(prompt: string): Promise<SDKResultMessage> {
         let resultMessage: SDKResultMessage | null = null
 
         const agentQuery = query({
@@ -44,7 +44,7 @@ export default class ApiClaudeCode {
 
                     // Log tool use.
                     if (content.type === "tool_use") {
-                        console.log(`[Tool: ${content.name}]: ${content.input}`)
+                        console.log(`[Tool: ${content.name}]: ${JSON.stringify(content.input, null, 2)}`)
                     }
                 }
             }
