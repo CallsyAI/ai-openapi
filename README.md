@@ -6,7 +6,7 @@ This package uses Claude AI (via Claude Code agent) to analyze your API routes a
 
 ## Features
 
-- ✨ **AI-Powered**: Uses Claude AI to understand your code and generate accurate documentation
+- ✨ **AI-Powered**: Uses Claude Code AI Agent to understand your code and generate accurate documentation
 - 📝 **Complete Workflow**: Generate, build, validate, and deploy OpenAPI specs
 - 🔄 **Self-Verifying**: AI validates its own output and retries on errors
 - 🎯 **Framework Agnostic**: Works with Remix, Express, or any framework via templates
@@ -20,14 +20,20 @@ This package uses Claude AI (via Claude Code agent) to analyze your API routes a
    npm install -g @anthropic-ai/claude-code
    ```
 
-2. **Anthropic API Key**: Get your API key from https://console.anthropic.com/
+2. **Anthropic API Key**: 
+   ```text
+   Get your API key from https://console.anthropic.com/
+   ```
 
-3. **README.com API Key** (optional, only for deployment): Get your API key from https://dash.readme.com/{your-project}/api-key
+3. **README.com API Key** (optional):
+   ```text
+   Get your API key from https://dash.readme.com/{your-project}/api-key
+   ```
 
 4. **Environment Variables**:
    ```bash
    export ANTHROPIC_API_KEY=your-key-here
-   export README_API_KEY=your-readme-key-here  # Optional, for deployment
+   export README_API_KEY=your-readme-key-here  # (Optional).
    ```
 
 ## Installation
@@ -46,7 +52,8 @@ npm install -g @callsy/ai-openapi
 
 ### 1. Create Base OpenAPI Spec
 
-Create `documentation/base.json`:
+- Create `documentation` folder in the root of your application codebase.
+- Create base api spec file `documentation/base.json`:
 
 ```json
 {
@@ -75,16 +82,16 @@ Create `documentation/base.json`:
 }
 ```
 
-### 2. Create Template Variable Files
+### 2. Create Instructions
 
-The AI prompt uses three customizable sections. Create files for your framework:
+The AI prompt uses three customizable sections. Create txt files with instructions for AI:
 
-**`documentation/applicationExplanation.txt`:**
+- `documentation/applicationExplanation.txt` (Used to explain to AI what is the application, what is the tech stack, what is the structre of the codebase, etc.)
 ```
 This is a web application with API endpoints in `app/routes/` prefixed with `api.`
 ```
 
-**`documentation/endpointGuidance.txt`:**
+- `documentation/endpointGuidance.txt` (Used to provide clear instructions how to find endpoints in your codebase, which ones to ignore, etc.)
 ```
 Search for all API route files in the application.
 
@@ -93,30 +100,15 @@ For each API route, understand that:
 - Extract HTTP methods, request/response schemas, and parameters
 ```
 
-**`documentation/additionalConstraints.txt`:**
+- `documentation/additionalConstraints.txt`: (Used to provide additional constraints i.e. "never modify application code", etc.)
 ```
-**READ FROM**:
-- API route source files
+ONLY READ FROM:
+- API route source files.
 
-**WRITE TO**:
+ONLY WRITE TO:
 - `documentation/schemas/*.json`
 - `documentation/routes/*.json`
 ```
-
-### 3. Generate Documentation
-
-**Important**: Run commands from the root directory of your application.
-
-```bash
-npx ai-openapi generate
-```
-
-This will:
-- Read your template files
-- Analyze your API routes
-- Generate schema files in `documentation/schemas/`
-- Generate route files in `documentation/routes/`
-- Build and validate the final OpenAPI spec
 
 ## CLI Commands
 
@@ -145,21 +137,16 @@ npx ai-openapi full
 ## Programmatic Usage
 
 ```javascript
+// Import.
 const { generate } = require('@callsy/ai-openapi')
 
-// Generate documentation with custom template variables
-await generate({
-  docDir: './documentation',
-  anthropicApiKey: 'sk-...',  // Optional, uses ANTHROPIC_API_KEY env var if not provided
-  applicationExplanation: './documentation/applicationExplanation.txt',
-  endpointGuidance: './documentation/endpointGuidance.txt',
-  additionalConstraints: './documentation/additionalConstraints.txt'
-})
+// Run.
+await generate({docDir: './documentation'})
 ```
 
 ## How It Works
 
-1. **Template Processing**: Handlebars renders the AI prompt with your framework-specific guidance
+1. **Template Processing**: Handlebars renders the AI prompt with your codebase-specific guidance
 2. **AI Analysis**: Claude AI reads your API route files
 3. **Schema Extraction**: Extracts types, validation logic, and response structures
 4. **Route Mapping**: Maps routes to OpenAPI paths
@@ -178,21 +165,27 @@ Cost depends on code complexity and number of endpoints.
 
 ## Troubleshooting
 
-### "ANTHROPIC_API_KEY is required"
+- "ANTHROPIC_API_KEY is required"
+```text
 Set your API key: `export ANTHROPIC_API_KEY=your-key-here`
+```
 
-### "Claude Code process exited with code 127"
-Ensure Claude Code CLI is installed and in PATH:
+- "Claude Code process exited with code 127"
 ```bash
+# Ensure Claude Code CLI is installed and in PATH:
 npm install -g @anthropic-ai/claude-code
 which claude
 ```
 
-### Validation failures
+- Validation failures
+```text
 The AI will automatically retry up to 5 times. Check the console output for specific errors.
+```
 
-### Template variables not working
+- Template variables not working
+```text
 Ensure your template files exist and paths are correct.
+```
 
 ## License
 
@@ -200,7 +193,7 @@ ISC
 
 ## Contributing
 
-Issues and PRs welcome at https://github.com/LaimonasCallsyAi/AiOpenApi
+Issues and PRs welcome at https://github.com/CallsyAI/ai-openapi
 
 ## Author
 
