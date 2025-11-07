@@ -20,7 +20,7 @@ export default async function deploy(options: CliOptions = {}) {
     const specContent = fs.readFileSync(openapiFile, "utf-8")
     const spec: JsonDict = JSON.parse(specContent)
     const api = new ApiReadme({apiKey: opts.readmeApiKey})
-    const result = await api.updateApiDefinition(spec)
+    const result = await api.createOrUpdateApiDefinition(spec)
 
     console.log(`Successfully deployed OpenAPI spec to Readme:\n${JSON.stringify(result, null, 2)}.`)
 }

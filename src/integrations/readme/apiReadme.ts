@@ -56,6 +56,21 @@ export default class ApiReadme extends ApiReadmeBase {
   }
 
   /**
+   * Create or update an API specification in ReadMe.
+   * Tries to update first; if 404, creates new specification.
+   */
+  public async createOrUpdateApiDefinition(spec: JsonDict): Promise<CreateApiDefinitionResponse | UpdateApiDefinitionResponse> {
+    try {
+      return await this.updateApiDefinition(spec)
+    } catch (error: any) {
+      if (error?.response?.status === 404) {
+        return await this.createApiDefinition(spec)
+      }
+      throw error
+    }
+  }
+
+  /**
    * Builds form data to be used in http requests when creating or updating API definitions.
    */
   private buildFormData(spec: JsonDict): FormData {
