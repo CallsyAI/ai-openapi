@@ -9,7 +9,7 @@ const program = new Command()
 program
     .name('ai-openapi')
     .description('Generate OpenAPI documentation using AI.')
-    .version('1.0.0')
+    .version('1.0.2')
 
 addOptions(program.command('generate'))
     .description('Generate OpenAPI documentation using AI.')

@@ -1,6 +1,6 @@
 {
   "name": "@callsy/ai-openapi",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "publishConfig": {
     "access": "public"
   },
@@ -13,16 +13,15 @@
     "auto",
     "generate",
     "documentation",
-    "remix",
     "claude"
   ],
-  "homepage": "https://github.com/LaimonasCallsyAi/AiOpenApi#readme",
+  "homepage": "https://github.com/CallsyAI/ai-openapi#readme",
   "bugs": {
-    "url": "https://github.com/LaimonasCallsyAi/AiOpenApi/issues"
+    "url": "https://github.com/CallsyAI/ai-openapi/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/LaimonasCallsyAi/AiOpenApi.git"
+    "url": "git+https://github.com/CallsyAI/ai-openapi.git"
   },
   "license": "ISC",
   "author": "Laimonas Sutkus",
