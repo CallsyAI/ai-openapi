@@ -146,13 +146,14 @@ await generate({docDir: './documentation'})
 
 ## How It Works
 
-1. **Template Processing**: Handlebars renders the AI prompt with your codebase-specific guidance
-2. **AI Analysis**: Claude AI reads your API route files
-3. **Schema Extraction**: Extracts types, validation logic, and response structures
-4. **Route Mapping**: Maps routes to OpenAPI paths
-5. **Documentation Generation**: Creates schema and route JSON files
-6. **Validation**: Builds and validates the final OpenAPI spec
-7. **Self-Correction**: If validation fails, AI automatically fixes issues (max 5 retries)
+1. **Template Processing**: Handlebars renders the AI prompt with your codebase-specific guidance.
+2. **AI Analysis**: Claude AI reads your API route files.
+3. **Schema Extraction**: Extracts types, validation logic, and response structures.
+4. **Route Mapping**: Maps routes to OpenAPI paths.
+5. **Documentation Generation**: Creates schema and route JSON files.
+6. **Validation**: Builds and validates the final OpenAPI spec.
+7. **Self-Correction**: If validation fails, AI automatically fixes issues (max 5 retries).
+8. **Framework and Language agnostic**: You can use this tool to generate documentation for any language or any framework!
 
 ## Cost
 
