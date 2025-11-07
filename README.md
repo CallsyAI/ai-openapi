@@ -127,22 +127,22 @@ NEVER modify application source code.
 **Important**: You should run all commands from the root directory of your application for best experience.
 
 ```bash
-# Generate OpenAPI docs using AI
+# Generate OpenAPI docs using AI.
 npx ai-openapi generate
 
-# Build final OpenAPI spec
+# Build final OpenAPI spec.
 npx ai-openapi build
 
-# Validate OpenAPI spec
+# Validate OpenAPI spec.
 npx ai-openapi validate
 
-# Deploy to README.com
+# Deploy to README.com.
 npx ai-openapi deploy
 
-# Clean up generated files
+# Clean up generated files.
 npx ai-openapi cleanup
 
-# Run complete workflow
+# Run complete workflow.
 npx ai-openapi full
 ```
 
@@ -151,11 +151,11 @@ npx ai-openapi full
 All commands support these options:
 
 ```bash
---doc-dir <path>                      # Path to documentation folder (default: ./documentation)
---additional-instructions <path>      # Path to instructions file (default: ./documentation/additionalInstructions.txt)
---base-file <path>                    # Path to base OpenAPI spec (default: ./documentation/base.json)
---anthropic-api-key <key>            # Anthropic API key (default: ANTHROPIC_API_KEY env var)
---readme-api-key <key>               # README.com API key (default: README_API_KEY env var)
+--doc-dir <path>                      # Path to documentation folder (default: ./documentation).
+--additional-instructions <path>      # Path to instructions file (default: ./documentation/additionalInstructions.txt).
+--base-file <path>                    # Path to base OpenAPI spec (default: ./documentation/base.json).
+--anthropic-api-key <key>            # Anthropic API key (default: ANTHROPIC_API_KEY env var).
+--readme-api-key <key>               # README.com API key (default: README_API_KEY env var).
 ```
 
 **Example with options**:
@@ -166,20 +166,20 @@ npx ai-openapi generate --doc-dir ./docs --additional-instructions ./docs/instru
 ## Programmatic Usage
 
 ```javascript
-// Import functions
+// Import functions.
 const { generate, build, validate, deploy, cleanup, full } = require('@callsy/ai-openapi')
 
-// Run individual commands
+// Run individual commands.
 await generate({
   docDir: './documentation',
   additionalInstructions: './documentation/additionalInstructions.txt',
-  anthropicApiKey: 'sk-...'  // Optional, uses env var by default
+  anthropicApiKey: 'sk-...'  // Optional, uses env var by default.
 })
 
-// Or run the full workflow
+// Or run the full workflow.
 await full({
   docDir: './documentation',
-  readmeApiKey: 'rdme_...'  // Optional, for deployment
+  readmeApiKey: 'rdme_...'  // Optional, for deployment.
 })
 ```
 
@@ -224,7 +224,7 @@ Set your API key: `export ANTHROPIC_API_KEY=your-key-here`
 
 - "Claude Code process exited with code 127"
 ```bash
-# Ensure Claude Code CLI is installed and in PATH:
+# Ensure Claude Code CLI is installed and in PATH.
 npm install -g @anthropic-ai/claude-code
 which claude
 ```
