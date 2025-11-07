@@ -5,35 +5,36 @@ import {listAllFilesInDirectory, readJsonFile} from "./util/fs"
 import {CliOptions, resolveDefaults} from "../bin/defaults"
 
 export default async function build(options: CliOptions = {}) {
-  const opts = resolveDefaults(options)
-  const docDir = path.resolve(opts.docDir!)
-  const routesDir = path.join(docDir, "routes")
-  const schemasDir = path.join(docDir, "schemas")
-  const outputFile = path.join(docDir, "openapi.json")
-  const baseFile = path.resolve(opts.baseFile!)
+    const opts = resolveDefaults(options)
 
-  console.log("Building OpenAPI specification...")
+    const docDir = path.resolve(opts.docDir!)
+    const routesDir = path.join(docDir, "routes")
+    const schemasDir = path.join(docDir, "schemas")
+    const outputFile = path.join(docDir, "openapi.json")
+    const baseFile = path.resolve(opts.baseFile!)
 
-  const spec = buildOpenApiSpec()
-  fs.writeFileSync(outputFile, JSON.stringify(spec, null, 2), "utf-8")
+    console.log("Building OpenAPI specification...")
 
-  console.log("OpenAPI specification successfully built!")
+    const spec = buildOpenApiSpec()
+    fs.writeFileSync(outputFile, JSON.stringify(spec, null, 2), "utf-8")
 
-  function buildOpenApiSpec(): JsonDict {
-    const baseSpec = readJsonFile<any>(baseFile)
+    console.log("OpenAPI specification successfully built!")
 
-    const schemaFiles = listAllFilesInDirectory(schemasDir, ".json")
-    for (const schemaFile of schemaFiles) {
-      const schemas = readJsonFile(schemaFile)
-      Object.assign(baseSpec.components.schemas, schemas)
+    function buildOpenApiSpec(): JsonDict {
+        const baseSpec = readJsonFile<any>(baseFile)
+
+        const schemaFiles = listAllFilesInDirectory(schemasDir, ".json")
+        for (const schemaFile of schemaFiles) {
+            const schemas = readJsonFile(schemaFile)
+            Object.assign(baseSpec.components.schemas, schemas)
+        }
+
+        const routeFiles = listAllFilesInDirectory(routesDir, ".json")
+        for (const routeFile of routeFiles) {
+            const routes = readJsonFile(routeFile)
+            Object.assign(baseSpec.paths, routes)
+        }
+
+        return baseSpec
     }
-
-    const routeFiles = listAllFilesInDirectory(routesDir, ".json")
-    for (const routeFile of routeFiles) {
-      const routes = readJsonFile(routeFile)
-      Object.assign(baseSpec.paths, routes)
-    }
-
-    return baseSpec
-  }
 }

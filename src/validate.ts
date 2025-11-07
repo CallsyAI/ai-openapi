@@ -4,6 +4,7 @@ import {CliOptions, resolveDefaults} from "../bin/defaults"
 
 export default async function validate(options: CliOptions = {}) {
     const opts = resolveDefaults(options)
+
     const docDir = path.resolve(opts.docDir!)
     const openapiFile = path.join(docDir, "openapi.json")
 

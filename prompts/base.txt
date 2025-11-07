@@ -2,17 +2,7 @@
 
 You are tasked with analyzing the codebase and generating comprehensive OpenAPI documentation.
 
-## Context
-
-{{APPLICATION_EXPLANATION}}
-
-## Your Task
-
-### Step 1: Find All API Routes (endpoints)
-
-{{ENDPOINT_GUIDANCE}}
-
-### Step 2: Analyze Each Route File
+### Step 1: Analyze Each Route File
 
 For each API route, carefully analyze:
 
@@ -24,7 +14,7 @@ For each API route, carefully analyze:
 - **Authentication**: Understand how each endpoint is authenticated (oauth, api tokens, etc.).
 - **Error Handling**: Identify thrown errors and their types.
 
-### Step 3: Review Existing Documentation
+### Step 2: Review Existing Documentation
 
 **IMPORTANT**: Documentation files may already exist from previous generation runs.
 
@@ -34,7 +24,7 @@ Before making any changes:
 3. Read each existing file to understand what's already documented.
 4. Compare existing documentation with current API route implementations.
 
-### Step 4: Generate or Update Documentation Files
+### Step 3: Generate or Update Documentation Files
 
 #### A. Schema Files (`documentation/schemas/`)
 
@@ -71,15 +61,7 @@ Create or update one file per API endpoint with 1-1 mapping to source files.
 - `security` - Oauth, token, etc.
 - `responses` - Include all possible status codes.
 
-**Common Response Codes**:
-- `200` - Success (GET).
-- `201` - Created (POST).
-- `400` - Validation error / Bad request.
-- `401` - Unauthorized.
-- `404` - Not found.
-- `405` - Method not allowed.
-
-### Step 5: Validation
+### Step 4: Validation
 
 Before writing/updating each file:
 
@@ -88,10 +70,6 @@ Before writing/updating each file:
 3. Check that paths are correctly formatted.
 4. Confirm schema definitions are complete.
 5. Only write if changes are needed (don't rewrite identical content).
-
-## Important Constraints
-
-{{ADDITIONAL_CONSTRAINTS}}
 
 ## Execution Instructions
 
@@ -132,5 +110,9 @@ Before writing/updating each file:
    - List all files deleted.
    - Report final validation status.
    - Confirm all changes are complete.
+
+### Step 5: IMPORTANT instructions & context
+
+{{ADDITIONAL_INSTRUCTIONS}}
 
 Begin now. Be thorough and precise. Only make changes where necessary.

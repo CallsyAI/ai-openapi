@@ -13,34 +13,34 @@ program
 
 addOptions(program.command('generate'))
     .description('Generate OpenAPI documentation using AI')
-    .action(errorHandler(generate))
+    .action(middleware(generate))
 
 addOptions(program.command('build'))
     .description('Build final OpenAPI spec from schemas and routes')
-    .action(errorHandler(build))
+    .action(middleware(build))
 
 addOptions(program.command('validate'))
     .description('Validate OpenAPI specification')
-    .action(errorHandler(validate))
+    .action(middleware(validate))
 
 addOptions(program.command('deploy'))
     .description('Deploy OpenAPI spec to README.com')
-    .action(errorHandler(deploy))
+    .action(middleware(deploy))
 
 addOptions(program.command('cleanup'))
     .description('Delete generated OpenAPI file')
-    .action(errorHandler(cleanup))
+    .action(middleware(cleanup))
 
 addOptions(program.command('full'))
     .description('Run complete workflow (generate -> build -> validate -> deploy -> cleanup)')
-    .action(errorHandler(full))
+    .action(middleware(full))
 
 program.parse()
 
 /**
  * Error handling middleware for CLI commands.
  */
-function errorHandler(fn: (opts: CliOptions) => Promise<void>) {
+function middleware(fn: (opts: CliOptions) => Promise<void>) {
     return async (opts: CliOptions) => {
         try {
             await fn(opts)
@@ -56,14 +56,12 @@ function errorHandler(fn: (opts: CliOptions) => Promise<void>) {
  */
 function addOptions(command: Command): Command {
     const options = [
-        ['--doc-dir <path>', 'Path to documentation folder', './documentation'],
-        ['--application-explanation <path>', 'Path to application explanation file'],
-        ['--endpoint-guidance <path>', 'Path to endpoint guidance file'],
-        ['--additional-constraints <path>', 'Path to additional constraints file'],
+        ['--doc-dir <path>', 'Path to documentation folder'],
+        ['--additional-instructions <path>', 'Path to additional instructions file'],
         ['--anthropic-api-key <key>', 'Anthropic API key (default from ANTHROPIC_API_KEY env)'],
         ['--readme-api-key <key>', 'Readme API key (default from README_API_KEY env)'],
-        ['--base-file <path>', 'Path to base openapi.json file', './documentation/base.json']
+        ['--base-file <path>', 'Path to base openapi.json file']
     ]
-    options.forEach(opt => command.option(...opt as [string, string, string?]))
+    options.forEach(opt => command.option(...opt as [string, string]))
     return command
 }

@@ -1,29 +1,15 @@
 import ApiClaudeCode from "./integrations/claudeCode/apiClaudeCode"
 import buildPrompt from "../prompts/prompt"
 import {CliOptions, resolveDefaults} from "../bin/defaults"
+import {must} from "./util/must"
 
 export default async function generate(options: CliOptions = {}) {
-    console.log("Generating OpenAPI documentation from API routes...")
-
     const opts = resolveDefaults(options)
 
-    // Build prompt props from resolved options.
-    const props = {
-        APPLICATION_EXPLANATION: {
-            type: "file" as const,
-            content: opts.applicationExplanation!
-        },
-        ENDPOINT_GUIDANCE: {
-            type: "file" as const,
-            content: opts.endpointGuidance!
-        },
-        ADDITIONAL_CONSTRAINTS: {
-            type: "file" as const,
-            content: opts.additionalConstraints!
-        }
-    }
+    console.log("Generating OpenAPI documentation from API routes...")
 
-    const promptText = buildPrompt(props as any)
+    const additional = must(opts.additionalInstructions, "Additional instructions")
+    const promptText = buildPrompt({instructionsPath: additional})
 
     const ALLOWED_BASH_COMMANDS = [
         "npx ai-openapi build",
@@ -38,12 +24,8 @@ export default async function generate(options: CliOptions = {}) {
     }
 
     const agent = new ApiClaudeCode({
-        model: "claude-sonnet-4-5",
-        permissionMode: "acceptEdits",
-        cwd: process.cwd(),
-        pathToClaudeCodeExecutable: "/opt/homebrew/bin/claude",
-        allowedTools: ["Read", "Write", "Glob", "Grep", "Bash"],
         apiKey: opts.anthropicApiKey,
+        allowedTools: ["Read", "Write", "Glob", "Grep", "Bash"],
         canUseTool: async (toolName, input) => {
             if (toolName === "Bash") {
                 const command = input.command as string

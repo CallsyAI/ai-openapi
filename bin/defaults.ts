@@ -1,21 +1,17 @@
 export interface CliOptions {
     docDir?: string
-    applicationExplanation?: string
-    endpointGuidance?: string
-    additionalConstraints?: string
+    additionalInstructions?: string
+    baseFile?: string
     anthropicApiKey?: string
     readmeApiKey?: string
-    baseFile?: string
 }
 
 export function resolveDefaults(options: CliOptions): CliOptions {
     return {
         docDir: options.docDir ?? "./documentation",
-        applicationExplanation: options.applicationExplanation ?? "./documentation/applicationExplanation.txt",
-        endpointGuidance: options.endpointGuidance ?? "./documentation/endpointGuidance.txt",
-        additionalConstraints: options.additionalConstraints ?? "./documentation/additionalConstraints.txt",
+        additionalInstructions: options.additionalInstructions ?? "./documentation/additionalInstructions.txt",
+        baseFile: options.baseFile ?? "./documentation/base.json",
         anthropicApiKey: options.anthropicApiKey,
-        readmeApiKey: options.readmeApiKey,
-        baseFile: options.baseFile ?? "./documentation/base.json"
+        readmeApiKey: options.readmeApiKey
     }
 }
