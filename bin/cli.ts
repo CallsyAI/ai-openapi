@@ -2,14 +2,14 @@
 
 import {Command} from 'commander'
 import {build, cleanup, deploy, full, generate, validate} from '../index'
-import {CliOptions} from "./defaults"
+import {Options} from '../src/options'
 
 const program = new Command()
 
 program
     .name('ai-openapi')
     .description('Generate OpenAPI documentation using AI.')
-    .version('1.0.2')
+    .version('2.0.0')
 
 addOptions(program.command('generate'))
     .description('Generate OpenAPI documentation using AI.')
@@ -28,7 +28,7 @@ addOptions(program.command('deploy'))
     .action(middleware(deploy))
 
 addOptions(program.command('cleanup'))
-    .description('Delete generated OpenAPI file.')
+    .description('Cleanup after documentation generation.')
     .action(middleware(cleanup))
 
 addOptions(program.command('full'))
@@ -40,8 +40,8 @@ program.parse()
 /**
  * Error handling middleware for CLI commands.
  */
-function middleware(fn: (opts: CliOptions) => Promise<void>) {
-    return async (opts: CliOptions) => {
+function middleware(fn: (opts: Partial<Options>) => Promise<void>) {
+    return async (opts: Partial<Options>) => {
         try {
             await fn(opts)
         } catch (error: any) {
@@ -57,10 +57,8 @@ function middleware(fn: (opts: CliOptions) => Promise<void>) {
 function addOptions(command: Command): Command {
     const options = [
         ['--doc-dir <path>', 'Path to documentation folder.'],
-        ['--additional-instructions <path>', 'Path to additional instructions file.'],
         ['--anthropic-api-key <key>', 'Anthropic API key (default from ANTHROPIC_API_KEY env).'],
         ['--readme-api-key <key>', 'Readme API key (default from README_API_KEY env).'],
-        ['--base-file <path>', 'Path to base openapi.json file.']
     ]
     options.forEach(opt => command.option(...opt as [string, string]))
     return command

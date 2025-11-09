@@ -3,18 +3,18 @@
  * Automatically generate OpenAPI documentation using AI.
  */
 
-import generate from './src/generate'
-import build from './src/build'
-import validate from './src/validate'
-import deploy from './src/deploy'
-import cleanup from './src/cleanup'
-import full from './src/full'
+import generate from './src/commands/generate'
+import build from './src/commands/build'
+import validate from './src/commands/validate'
+import deploy from './src/commands/deploy'
+import cleanup from './src/commands/cleanup'
+import full from './src/commands/full'
 
 export {
-  generate,
-  build,
-  validate,
-  deploy,
-  cleanup,
-  full
+    generate,
+    build,
+    validate,
+    deploy,
+    cleanup,
+    full
 }

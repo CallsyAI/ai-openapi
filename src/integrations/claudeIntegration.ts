@@ -1,23 +1,17 @@
-import {type Options, query, type SDKResultMessage} from "@anthropic-ai/claude-agent-sdk"
-import {must} from "../../util/must"
+import {type Options as AnthropicOptions, query, type SDKResultMessage} from "@anthropic-ai/claude-agent-sdk"
 
-export default class ApiClaudeCode {
-    private readonly ANTHROPIC_API_KEY: string
-    private readonly options: Options
-
-    public constructor(options?: Options & { apiKey?: string }) {
-        this.ANTHROPIC_API_KEY = options?.apiKey || must(process.env.ANTHROPIC_API_KEY, "ANTHROPIC_API_KEY")
-
+export default class ClaudeIntegration {
+    public constructor(apiKey: string, private readonly options?: AnthropicOptions) {
         this.options = {
             ...options,
             model: options?.model || "claude-sonnet-4-5",
             permissionMode: options?.permissionMode || "acceptEdits",
             cwd: options?.cwd || process.cwd(),
-            pathToClaudeCodeExecutable: options?.pathToClaudeCodeExecutable || "/opt/homebrew/bin/claude",
+            pathToClaudeCodeExecutable: options?.pathToClaudeCodeExecutable || "claude",
             env: {
                 ...options?.env,
                 PATH: process.env.PATH,
-                ANTHROPIC_API_KEY: this.ANTHROPIC_API_KEY
+                ANTHROPIC_API_KEY: apiKey
             }
         }
     }

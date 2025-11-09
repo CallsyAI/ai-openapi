@@ -19,14 +19,14 @@ For each API route, carefully analyze:
 **IMPORTANT**: Documentation files may already exist from previous generation runs.
 
 Before making any changes:
-1. List all existing files in `documentation/schemas/`.
-2. List all existing files in `documentation/routes/`.
+1. List all existing files in `{{DOCUMENTATION_SCHEMAS_PATH}}`.
+2. List all existing files in `{{DOCUMENTATION_ROUTES_PATH}}`.
 3. Read each existing file to understand what's already documented.
 4. Compare existing documentation with current API route implementations.
 
 ### Step 3: Generate or Update Documentation Files
 
-#### A. Schema Files (`documentation/schemas/`)
+#### A. Schema Files (`{{DOCUMENTATION_SCHEMAS_PATH}}`)
 
 Create or update schema files for all data structures. Group related schemas by entity.
 
@@ -44,7 +44,7 @@ Create or update schema files for all data structures. Group related schemas by 
 - Use JSON Schema formats: `date-time`, `email`, `uri`, etc.
 - Add validation constraints: `minLength`, `maxLength`, `minimum`, `maximum`, etc. if they are present in code.
 
-#### B. Route Files (`documentation/routes/`)
+#### B. Route Files (`{{DOCUMENTATION_ROUTES_PATH}}`)
 
 Create or update one file per API endpoint with 1-1 mapping to source files.
 
@@ -76,8 +76,8 @@ Before writing/updating each file:
 1. **Inventory Phase**:
 
    - List all API routes (endpoints).
-   - List all existing schema files in `documentation/schemas/`.
-   - List all existing route files in `documentation/routes/`.
+   - List all existing schema files in `{{DOCUMENTATION_SCHEMAS_PATH}}`.
+   - List all existing route files in `{{DOCUMENTATION_ROUTES_PATH}}`.
 
 2. **Analysis Phase**:
 
@@ -95,6 +95,7 @@ Before writing/updating each file:
 
    - Run `npx ai-openapi build` to build the final OpenAPI spec.
    - Run `npx ai-openapi validate` to validate the generated spec.
+   - Run `npx ai-openapi cleanup` to clean up after verification.
    - If validation fails:
      - Read the error messages carefully.
      - Identify which files have issues.

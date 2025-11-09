@@ -86,7 +86,7 @@ npm install -g @callsy/ai-openapi
 
 Create a single instruction file that guides the AI on how to analyze your codebase:
 
-**File**: `documentation/additionalInstructions.txt`
+**File**: `documentation/instructions.txt`
 
 This file should include:
 - **Application Context**: Explain what your application does, tech stack, and codebase structure.
@@ -151,16 +151,14 @@ npx ai-openapi full
 All commands support these options:
 
 ```bash
---doc-dir <path>                      # Path to documentation folder (default: ./documentation).
---additional-instructions <path>      # Path to instructions file (default: ./documentation/additionalInstructions.txt).
---base-file <path>                    # Path to base OpenAPI spec (default: ./documentation/base.json).
---anthropic-api-key <key>            # Anthropic API key (default: ANTHROPIC_API_KEY env var).
---readme-api-key <key>               # README.com API key (default: README_API_KEY env var).
+--doc-dir <path>             # Path to documentation folder (default: ./documentation).
+--anthropic-api-key <key>    # Anthropic API key (default: ANTHROPIC_API_KEY env var).
+--readme-api-key <key>       # README.com API key (default: README_API_KEY env var).
 ```
 
 **Example with options**:
 ```bash
-npx ai-openapi generate --doc-dir ./docs --additional-instructions ./docs/instructions.txt
+npx ai-openapi generate --doc-dir ./docs
 ```
 
 ## Programmatic Usage
@@ -171,25 +169,12 @@ const { generate, build, validate, deploy, cleanup, full } = require('@callsy/ai
 
 // Run individual commands.
 await generate({
-  docDir: './documentation',
-  additionalInstructions: './documentation/additionalInstructions.txt',
-  anthropicApiKey: 'sk-...'  // Optional, uses env var by default.
+  docDir: './documentation'
 })
 
 // Or run the full workflow.
 await full({
-  docDir: './documentation',
-  readmeApiKey: 'rdme_...'  // Optional, for deployment.
-})
-```
-
-**TypeScript**:
-```typescript
-import { generate, build, validate, deploy, cleanup, full } from '@callsy/ai-openapi'
-
-await generate({
-  docDir: './documentation',
-  additionalInstructions: './documentation/additionalInstructions.txt'
+  docDir: './documentation'
 })
 ```
 

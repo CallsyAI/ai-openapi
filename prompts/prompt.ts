@@ -1,20 +1,19 @@
 import * as path from "path"
-import HandlebarsService from "../src/integrations/handlebars/apiHandlebars"
 import {readFile} from "../src/util/fs"
-
-interface PromptProps {
-    instructionsPath: string
-}
+import {build} from "../src/util/handlebars"
+import Config from "../src/config"
 
 /**
  * Returns complete prompt.
  */
-export default function prompt(props: PromptProps): string {
-    const templatePath = path.join(__dirname, "base.txt")
-    const template = readFile(templatePath)
-    const instructions = readFile(props.instructionsPath)
+export default function prompt(cfg: Config): string {
+    const promptTemplatePath = path.join(__dirname, "base.txt")
+    const promptTemplate = readFile(promptTemplatePath)
+    const instructions = readFile(cfg.instructionsPath())
 
-    return HandlebarsService.build(template, {
-        ADDITIONAL_INSTRUCTIONS: instructions
+    return build(promptTemplate, {
+        ADDITIONAL_INSTRUCTIONS: instructions,
+        DOCUMENTATION_SCHEMAS_PATH: cfg.schemasDir(),
+        DOCUMENTATION_ROUTES_PATH: cfg.routesDir()
     })
 }

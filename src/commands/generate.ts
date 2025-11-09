@@ -1,19 +1,19 @@
-import ApiClaudeCode from "./integrations/claudeCode/apiClaudeCode"
-import buildPrompt from "../prompts/prompt"
-import {CliOptions, resolveDefaults} from "../bin/defaults"
-import {must} from "./util/must"
+import ClaudeIntegration from "../integrations/claudeIntegration"
+import buildPrompt from "../../prompts/prompt"
+import {Options} from "../options"
+import Config from "../config"
 
-export default async function generate(options: CliOptions = {}) {
-    const opts = resolveDefaults(options)
+export default async function generate(options: Partial<Options> = {}) {
+    const cfg = new Config(options)
 
     console.log("Generating OpenAPI documentation from API routes...")
 
-    const additional = must(opts.additionalInstructions, "Additional instructions")
-    const promptText = buildPrompt({instructionsPath: additional})
+    const promptText = buildPrompt(cfg)
 
     const ALLOWED_BASH_COMMANDS = [
         "npx ai-openapi build",
-        "npx ai-openapi validate"
+        "npx ai-openapi validate",
+        "npx ai-openapi cleanup"
     ]
 
     const ALLOW_ACTION = (input: any) => {
@@ -23,8 +23,7 @@ export default async function generate(options: CliOptions = {}) {
         return {behavior: "deny" as const, message: message}
     }
 
-    const agent = new ApiClaudeCode({
-        apiKey: opts.anthropicApiKey,
+    const agent = new ClaudeIntegration(cfg.anthropicApiKey(), {
         allowedTools: ["Read", "Write", "Glob", "Grep", "Bash"],
         canUseTool: async (toolName, input) => {
             if (toolName === "Bash") {

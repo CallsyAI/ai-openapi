@@ -3,19 +3,17 @@ import build from './build'
 import validate from './validate'
 import deploy from './deploy'
 import cleanup from './cleanup'
-import {CliOptions, resolveDefaults} from "../bin/defaults"
+import {Options} from "../options"
 
-export default async function full(options: CliOptions = {}) {
-    const opts = resolveDefaults(options)
-
+export default async function full(options: Partial<Options> = {}) {
     console.log("Starting full OpenAPI documentation workflow...")
 
     const steps = [
-        {name: "Generate", fn: () => generate(opts)},
-        {name: "Build", fn: () => build(opts)},
-        {name: "Validate", fn: () => validate(opts)},
-        {name: "Deploy", fn: () => deploy(opts)},
-        {name: "Cleanup", fn: () => cleanup(opts)}
+        {name: "Generate", fn: () => generate(options)},
+        {name: "Build", fn: () => build(options)},
+        {name: "Validate", fn: () => validate(options)},
+        {name: "Deploy", fn: () => deploy(options)},
+        {name: "Cleanup", fn: () => cleanup(options)}
     ]
 
     for (const step of steps) {
