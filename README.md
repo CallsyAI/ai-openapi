@@ -180,7 +180,7 @@ await full({
 
 ## How It Works
 
-1. **Instruction Loading**: Reads your custom instructions from `additionalInstructions.txt`.
+1. **Instruction Loading**: Reads your custom instructions from `instructions.txt`.
 2. **Template Processing**: Handlebars renders the AI prompt with your codebase-specific guidance.
 3. **AI Analysis**: Claude AI agent analyzes your API route files following your instructions.
 4. **Schema Extraction**: Extracts types, validation logic, and response structures from code.
@@ -219,11 +219,10 @@ which claude
 The AI will automatically retry up to 5 times. Check the console output for specific errors.
 ```
 
-- "Additional instructions file not found"
+- "Instructions file not found"
 ```text
 Ensure your instruction file exists at the correct path:
-- Default: ./documentation/additionalInstructions.txt.
-- Or specify custom path with --additional-instructions flag.
+- ./documentation/instructions.txt.
 ```
 
 ## License
