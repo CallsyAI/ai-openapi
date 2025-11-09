@@ -1,4 +1,5 @@
 import {type Options as AnthropicOptions, query, type SDKResultMessage} from "@anthropic-ai/claude-agent-sdk"
+import {findClaude} from "../util/claude"
 
 export default class ClaudeIntegration {
     public constructor(apiKey: string, private readonly options?: AnthropicOptions) {
@@ -7,7 +8,7 @@ export default class ClaudeIntegration {
             model: options?.model || "claude-sonnet-4-5",
             permissionMode: options?.permissionMode || "acceptEdits",
             cwd: options?.cwd || process.cwd(),
-            pathToClaudeCodeExecutable: options?.pathToClaudeCodeExecutable || "claude",
+            pathToClaudeCodeExecutable: options?.pathToClaudeCodeExecutable || findClaude(),
             env: {
                 ...options?.env,
                 PATH: process.env.PATH,
