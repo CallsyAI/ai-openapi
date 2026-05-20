@@ -4,8 +4,8 @@ import {findClaude} from "../util/claude"
 export default class ClaudeIntegration {
     public constructor(apiKey: string | undefined, private readonly options?: AnthropicOptions) {
         const env: Record<string, string | undefined> = {
+            ...process.env,
             ...options?.env,
-            PATH: process.env.PATH,
         }
 
         if (apiKey) {
