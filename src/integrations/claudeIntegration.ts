@@ -2,18 +2,23 @@ import {type Options as AnthropicOptions, query, type SDKResultMessage} from "@a
 import {findClaude} from "../util/claude"
 
 export default class ClaudeIntegration {
-    public constructor(apiKey: string, private readonly options?: AnthropicOptions) {
+    public constructor(apiKey: string | undefined, private readonly options?: AnthropicOptions) {
+        const env: Record<string, string | undefined> = {
+            ...options?.env,
+            PATH: process.env.PATH,
+        }
+
+        if (apiKey) {
+            env.ANTHROPIC_API_KEY = apiKey
+        }
+
         this.options = {
             ...options,
             model: options?.model || "claude-sonnet-4-5",
             permissionMode: options?.permissionMode || "acceptEdits",
             cwd: options?.cwd || process.cwd(),
             pathToClaudeCodeExecutable: options?.pathToClaudeCodeExecutable || findClaude(),
-            env: {
-                ...options?.env,
-                PATH: process.env.PATH,
-                ANTHROPIC_API_KEY: apiKey
-            }
+            env: env
         }
     }
 

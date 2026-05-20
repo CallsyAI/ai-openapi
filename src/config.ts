@@ -52,10 +52,10 @@ export default class Config {
     }
 
     /**
-     * Resolves Anthropic API key.
+     * Resolves Anthropic API key. Returns undefined if not set, allowing Claude Code to use OAuth session.
      */
-    public anthropicApiKey(): string {
-        return this.options.anthropicApiKey || must(process.env.ANTHROPIC_API_KEY, "ANTHROPIC_API_KEY")
+    public anthropicApiKey(): string | undefined {
+        return this.options.anthropicApiKey || process.env.ANTHROPIC_API_KEY || undefined
     }
 
     /**
